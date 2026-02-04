@@ -59,53 +59,53 @@ app.get('/', (req, res) => {
 let lastStatuses = {};
 
 // Poll every 5 seconds
-setInterval(() => {
-  db.query(
-    `SELECT id, status, total, name
-     FROM customer_order`,
-    (err, results) => {
-      if (err) return console.error('MySQL Query Error:', err);
+// setInterval(() => {
+//   db.query(
+//     `SELECT id, status, total, name
+//      FROM customer_order`,
+//     (err, results) => {
+//       if (err) return console.error('MySQL Query Error:', err);
 
-      results.forEach((order) => {
-        const prevStatus = lastStatuses[order.id];
+//       results.forEach((order) => {
+//         const prevStatus = lastStatuses[order.id];
 
-        // If status changed
-        if (prevStatus !== undefined && prevStatus !== order.status) {
-          console.log(`📢 Order ${order.id} status changed: ${prevStatus} → ${order.status}`);
+//         // If status changed
+//         if (prevStatus !== undefined && prevStatus !== order.status) {
+//           console.log(`📢 Order ${order.id} status changed: ${prevStatus} → ${order.status}`);
 
-          const notification = {
-            orderId: order.id,
-            newStatus: order.status,
-            name: order.name,
-            total: order.total,
-          };
+//           const notification = {
+//             orderId: order.id,
+//             newStatus: order.status,
+//             name: order.name,
+//             total: order.total,
+//           };
 
-          // Emit to frontend
-          io.emit('orderStatusChanged', notification);
+//           // Emit to frontend
+//           io.emit('orderStatusChanged', notification);
 
-          // Save to DB
-          db.query(
-            `INSERT INTO notifications (order_id, customer_name, status, total)
-            VALUES (?, ?, ?, ?)`,
-            [
-              notification.orderId,
-              notification.name,
-              notification.newStatus,
-              notification.total,
+//           // Save to DB
+//           db.query(
+//             `INSERT INTO notifications (order_id, customer_name, status, total)
+//             VALUES (?, ?, ?, ?)`,
+//             [
+//               notification.orderId,
+//               notification.name,
+//               notification.newStatus,
+//               notification.total,
 
-            ],
-            (err) => {
-              if (err) console.error('❌ Error inserting notification:', err);
-            }
-          );
-        }
+//             ],
+//             (err) => {
+//               if (err) console.error('❌ Error inserting notification:', err);
+//             }
+//           );
+//         }
 
-        // Save current status
-        lastStatuses[order.id] = order.status;
-      });
-    }
-  );
-}, 5000);
+//         // Save current status
+//         lastStatuses[order.id] = order.status;
+//       });
+//     }
+//   );
+// }, 5000);
 
 
 app.use(fileUpload());
