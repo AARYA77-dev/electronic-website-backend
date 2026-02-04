@@ -83,7 +83,8 @@ async function updateUser(request, response) {
 
     return response.status(200).json(updatedUser);
   } catch (error) {
-    return response.status(500).json({ error: "Error updating user" });
+    console.log(error)
+    return response.status(500).json({ error: "Error updating user" },{message:"new"});
   }
 }
 
