@@ -35,7 +35,7 @@ async function createUser(request, response) {
     return response.status(201).json(user);
 
   } catch (error) {
-
+    console.log(error)
     if (
       error instanceof PrismaClientKnownRequestError &&
       error.code === "P2002" &&
