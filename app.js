@@ -12,18 +12,18 @@ const slugRouter = require("./routes/slugs");
 const orderProductRouter = require('./routes/customer_order_product');
 const wishlistRouter = require('./routes/wishlist');
 const http = require('http');
-const socketIO = require('socket.io');
+// const socketIO = require('socket.io');
 const mysql = require('mysql2');
 var cors = require("cors");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server, {
-  cors: {
-    origin: 'http://localhost:3000', // ✅ Frontend origin
-    methods: ['GET', 'POST'],
-  },
-});
+// const io = socketIO(server, {
+//   cors: {
+//     origin: 'http://localhost:3000', // ✅ Frontend origin
+//     methods: ['GET', 'POST'],
+//   },
+// });
 
 app.use(express.json());
 app.use(
@@ -34,25 +34,28 @@ app.use(
   })
 );
 
-const db = mysql.createConnection({
-  host: process.env.sql_host,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+// const db = mysql.createConnection({
+//   host: process.env.sql_host,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
+// });
 
-// Connect to database
-db.connect((err) => {
-  if (err) {
-    console.error('MySQL Connection Error:', err);
-  } else {
-    console.log('✅ Connected to MySQL');
-  }
-});
+// // Connect to database
+// db.connect((err) => {
+//   if (err) {
+//     console.error('MySQL Connection Error:', err);
+//   } else {
+//     console.log('✅ Connected to MySQL');
+//   }
+// });
+
+const pool = mysql.createPool(process.env.DATABASE_URL);
+
 
 // Serve basic route (optional)
 app.get('/', (req, res) => {
-  res.send('Server is running with Socket.IO and MySQL');
+  res.send('Server is running with MySQL');
 });
 
 // Store last known statuses
@@ -120,8 +123,8 @@ app.use("/api/orders", orderRouter);
 app.use('/api/order-product', orderProductRouter);
 app.use("/api/slugs", slugRouter);
 app.use("/api/wishlist", wishlistRouter);
-const notifications = require('./routes/notifications')(db);
-app.use("/api/notifications", notifications);
+// const notifications = require('./routes/notifications')(db);
+// app.use("/api/notifications", notifications);
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {

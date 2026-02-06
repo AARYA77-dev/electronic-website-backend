@@ -275,7 +275,6 @@ async function createProduct(request, response) {
     });
     return response.status(201).json(product);
   } catch (error) {
-    console.error("Error creating product:", error); // Dodajemo log za proveru
     return response.status(500).json({ error: "Error creating product" });
   }
 }

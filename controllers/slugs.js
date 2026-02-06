@@ -2,10 +2,10 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function getProductBySlug(request, response) {
-  const { slug } = request.params;
+  const { id } = request.params;
   const product = await prisma.product.findMany({
     where: {
-      slug: slug,
+      id: id,
     },
     include: {
       category: true
