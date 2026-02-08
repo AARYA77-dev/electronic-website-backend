@@ -11,6 +11,7 @@ const orderRouter = require("./routes/customer_orders");
 const slugRouter = require("./routes/slugs");
 const orderProductRouter = require('./routes/customer_order_product');
 const wishlistRouter = require('./routes/wishlist');
+const cartRouter = require('./routes/cart');
 const http = require('http');
 // const socketIO = require('socket.io');
 const mysql = require('mysql2');
@@ -33,6 +34,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// const db = mysql.createPool(process.env.DATABASE_URL)
 
 const db = mysql.createConnection({
   host: process.env.sql_host,
@@ -120,6 +123,7 @@ app.use("/api/orders", orderRouter);
 app.use('/api/order-product', orderProductRouter);
 app.use("/api/slugs", slugRouter);
 app.use("/api/wishlist", wishlistRouter);
+app.use("/api/cart", cartRouter);
 // const notifications = require('./routes/notifications')(db);
 // app.use("/api/notifications", notifications);
 
