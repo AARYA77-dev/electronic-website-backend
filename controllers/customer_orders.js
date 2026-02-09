@@ -127,16 +127,16 @@ async function deleteCustomerOrder(request, response) {
 }
 
 async function getCustomerOrder(request, response) {
-  const { id } = request.params;
+  const { userId } = request.params
   const order = await prisma.customer_order.findMany({
     where: {
-      userId: id,
+      userId: userId,
     },
   });
   if (!order) {
     return response.status(404).json({ error: "Order not found" });
   }
-  return response.status(200).json(order);
+  return response.status(201).json(order);
 }
 
 async function getAllOrders(request, response) {
