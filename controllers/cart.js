@@ -46,7 +46,7 @@ async function createCart(request, response) {
   } catch (error) {
     console.log(error,"checking11")
     console.error("Error creating cart item:", error);
-    return response.status(500).json({ error: "Error creating cart item" });
+    return response.status(500).json({ error: "Error creating cart item" },error);
   }
 }
 
