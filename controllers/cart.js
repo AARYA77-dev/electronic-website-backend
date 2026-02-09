@@ -35,7 +35,7 @@ async function getAllCartByUserId(request, response) {
 async function createCart(request, response) {
   try {
     const { userId, productId, quantity } = request.body;
-    const cart = await prisma.cartItem.create({
+    const cart = await prisma.CartItem.create({
       data: {
         userId,
         productId,
