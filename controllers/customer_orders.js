@@ -18,7 +18,8 @@ async function createCustomerOrder(request, response) {
       orderNotice,
       total,
       productId,
-      quantity
+      quantity,
+      userId
     } = request.body;
 
      // Check current product stock
@@ -42,6 +43,7 @@ async function createCustomerOrder(request, response) {
         country,
         orderNotice,
         total,
+        userId: userId || null
       },
     });
     return response.status(201).json(corder);
@@ -69,6 +71,7 @@ async function updateCustomerOrder(request, response) {
       country,
       orderNotice,
       total,
+      userId
     } = request.body;
 
     const existingOrder = await prisma.customer_order.findUnique({
@@ -125,9 +128,9 @@ async function deleteCustomerOrder(request, response) {
 
 async function getCustomerOrder(request, response) {
   const { id } = request.params;
-  const order = await prisma.customer_order.findUnique({
+  const order = await prisma.customer_order.findMany({
     where: {
-      id: id,
+      userId: id,
     },
   });
   if (!order) {
