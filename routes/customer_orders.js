@@ -7,7 +7,8 @@ const {
     createCustomerOrder,
     updateCustomerOrder,
     deleteCustomerOrder,
-    getAllOrders ,
+    getAllOrders,
+    getCustomerOrderDetails,
   } = require('../controllers/customer_orders');
 
   router.route('/')
@@ -18,5 +19,8 @@ const {
   .get(getCustomerOrder)
   .put(updateCustomerOrder) 
   .delete(deleteCustomerOrder)
+
+  router.route('/orderDetails/:id')
+  .get(getCustomerOrderDetails)
 
 module.exports = router;

@@ -139,6 +139,19 @@ async function getCustomerOrder(request, response) {
   return response.status(201).json(order);
 }
 
+async function getCustomerOrderDetails(request, response) {
+  const { id } = request.params
+  const order = await prisma.customer_order.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!order) {
+    return response.status(404).json({ error: "Order Details not found" });
+  }
+  return response.status(201).json(order);
+}
+
 async function getAllOrders(request, response) {
   try {
     const orders = await prisma.customer_order.findMany({});
@@ -154,5 +167,6 @@ module.exports = {
   updateCustomerOrder,
   deleteCustomerOrder,
   getCustomerOrder,
+  getCustomerOrderDetails,
   getAllOrders,
 };

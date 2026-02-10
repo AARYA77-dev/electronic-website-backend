@@ -35,6 +35,25 @@ async function getAllCartByUserId(request, response) {
 async function createCart(request, response) {
   try {
     const { userId, productId, quantity } = request.body;
+
+    existingCartItem = await prisma.CartItem.findFirst({
+      where:{
+        userId:userId,
+        productId:productId
+      }
+    });
+    if(existingCartItem){
+      const updateItem = await prisma.CartItem.update({
+        where:{
+          id:existingCartItem.id,
+        },
+        data:{
+          quantity:existingCartItem.quantity+quantity
+        }
+      });
+      return response.status(201).json(updateItem)
+    }
+    
     const cart = await prisma.CartItem.create({
       data: {
         userId,

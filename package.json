@@ -5,23 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "prisma generate",
-    "start": "node app.js",
-    "migrate": "prisma migrate deploy"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.12.1",
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "express": "^4.18.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.16.3",
-    "nanoid": "^5.0.6",
-    "prisma": "^5.12.1",
+    "nanoid": "^5.1.6",
+    "prisma": "^7.3.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
   }
