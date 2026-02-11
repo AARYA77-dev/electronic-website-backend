@@ -87,23 +87,23 @@ async function getSingleProductFromWishlist(request, response){
   }
 }
 
-async function deleteAllWishItemByUserId(request, response) {
-  try {
-    const { userId } = request.params;
+// async function deleteAllWishItemByUserId(request, response) {
+//   try {
+//     const { userId } = request.params;
     
-    await prisma.wishlist.deleteMany({
-      where: {
-        userId: userId,
-      },
-    });
+//     await prisma.wishlist.deleteMany({
+//       where: {
+//         userId: userId,
+//       },
+//     });
     
-    return response.status(204).send();
+//     return response.status(204).send();
 
-  } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error: "Error deleting wish item" });
-  }
-}
+//   } catch (error) {
+//     console.log(error);
+//     return response.status(500).json({ error: "Error deleting wish item" });
+//   }
+// }
 
 
 module.exports = {

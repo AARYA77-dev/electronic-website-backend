@@ -37,23 +37,23 @@ async function createCart(request, response) {
     const { userId, productId, quantity } = request.body;
 
     existingCartItem = await prisma.CartItem.findFirst({
-      where:{
-        userId:userId,
-        productId:productId
+      where: {
+        userId: userId,
+        productId: productId
       }
     });
-    if(existingCartItem){
+    if (existingCartItem) {
       const updateItem = await prisma.CartItem.update({
-        where:{
-          id:existingCartItem.id,
+        where: {
+          id: existingCartItem.id,
         },
-        data:{
-          quantity:existingCartItem.quantity+quantity
+        data: {
+          quantity: existingCartItem.quantity + quantity
         }
       });
       return response.status(201).json(updateItem)
     }
-    
+
     const cart = await prisma.CartItem.create({
       data: {
         userId,
@@ -64,21 +64,21 @@ async function createCart(request, response) {
     return response.status(201).json(cart);
   } catch (error) {
     console.error("Error creating cart item:", error);
-    return response.status(500).json({ error: "Error creating cart item" },error);
+    return response.status(500).json({ error: "Error creating cart item" }, error);
   }
 }
 
 async function deleteCart(request, response) {
   try {
     const { userId, productId } = request.params;
-    
+
     await prisma.CartItem.deleteMany({
       where: {
         userId: userId,
         productId: productId,
       },
     });
-    
+
     return response.status(204).send();
 
   } catch (error) {
@@ -87,17 +87,17 @@ async function deleteCart(request, response) {
   }
 }
 
-async function getSingleProductFromCart(request, response){
+async function getSingleProductFromCart(request, response) {
   try {
     const { userId, productId } = request.params;
-    
+
     const cart = await prisma.CartItem.findMany({
       where: {
         userId: userId,
         productId: productId,
       },
     });
-    
+
     return response.status(200).json(cart);
 
   } catch (error) {
@@ -106,16 +106,39 @@ async function getSingleProductFromCart(request, response){
   }
 }
 
+async function updateQuantityinCart(request, response) {
+  try {
+    const { userId, productId, quantity } = request.body;
+    const cart = await prisma.CartItem.update({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+      data: {
+        quantity,
+      },
+    });
+
+    return response.status(200).json(cart);
+
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({ error: "Error updating in cart item" });
+  }
+}
+
 async function deleteAllCartByUserId(request, response) {
   try {
     const { userId } = request.params;
-    
+
     await prisma.CartItem.deleteMany({
       where: {
         userId: userId,
       },
     });
-    
+
     return response.status(204).send();
 
   } catch (error) {
@@ -129,5 +152,7 @@ module.exports = {
   getAllCart,
   createCart,
   deleteCart,
-  getSingleProductFromCart
+  deleteAllCartByUserId,
+  getSingleProductFromCart,
+  updateQuantityinCart
 };

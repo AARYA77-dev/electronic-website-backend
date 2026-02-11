@@ -7,11 +7,14 @@ const {
   getAllCart,
   createCart,
   deleteCart,
-  getSingleProductFromCart
+  getSingleProductFromCart,
+  deleteAllCartByUserId,
+  updateQuantityinCart
 } = require("../controllers/cart");
 
-router.route("/").get(getAllCart).post(createCart);
-
+router.route("/").get(getAllCart).post(createCart).put(updateQuantityinCart);;
+// router.route("/cart").put(updateQuantityinCart);
+router.route("/:userId").delete(deleteAllCartByUserId);
 router.route("/:userId").get(getAllCartByUserId);
 router.route("/:userId/:productId").get(getSingleProductFromCart).delete(deleteCart);
 
